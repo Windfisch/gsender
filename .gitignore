@@ -1,6 +1,5 @@
 node_modules
 npm-debug.log
-package-lock.json
 /.eslintcache
 /.nyc_output
 /coverage
@@ -11,7 +10,6 @@ package-lock.json
 /.vscode
 electron-builder.yml
 .DS_Store
-yarn.lock
 yarn-error.log
 gsender_server_log.txt
 
