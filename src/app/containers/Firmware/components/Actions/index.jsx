@@ -79,7 +79,7 @@ const ActionArea = () => {
             <div className={styles.buttonsContainer}>
                 <div>
                     <Tooltip content={tooltipContent} location="default">
-                        <ToolModalButton icon="fas fa-bolt" onClick={() => setInitiateFlashing(true, controllerType === GRBLHAL)}>
+                        <ToolModalButton icon="fas fa-bolt" disabled="true" onClick={() => setInitiateFlashing(true, controllerType === GRBLHAL)}>
                             Flash {flashLabel}
                         </ToolModalButton>
                     </Tooltip>
@@ -90,7 +90,7 @@ const ActionArea = () => {
                         <ToolModalButton
                             icon="fas fa-file-import"
                             onClick={() => inputRef.current?.click()}
-                            disabled={!canSendSettings}
+                            disabled={!canSendSettings || true}
                         >
                             Import Settings
                         </ToolModalButton>
@@ -108,7 +108,7 @@ const ActionArea = () => {
                         <ToolModalButton
                             icon="fas fa-undo"
                             onClick={() => setShouldRestoreDefault(true)}
-                            disabled={!canSendSettings}
+                            disabled={!canSendSettings || true}
                         >
                             Restore Defaults
                         </ToolModalButton>
@@ -119,7 +119,7 @@ const ActionArea = () => {
                     <ToolModalButton
                         icon="fas fa-tasks"
                         style={{ margin: 0 }}
-                        disabled={isDefault || !canSendSettings || !settingsToApply}
+                        disabled={isDefault || !canSendSettings || !settingsToApply || true}
                         className={(isDefault || !settingsToApply) ? `${styles.firmwareButtonDisabled}` : `${styles.applySettingsButton}`}
                         onClick={() => applyNewSettings(settings, eeprom, setSettingsToApply)}
                     >

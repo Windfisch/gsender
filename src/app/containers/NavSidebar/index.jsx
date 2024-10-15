@@ -127,11 +127,11 @@ class NavSidebar extends PureComponent {
         },
         OPEN_TOOLBAR_FIRM: {
             title: 'Firmware',
-            keys: 'f5',
+            keys: null,
             cmd: 'OPEN_TOOLBAR_FIRM',
             payload: { toolbar: MODAL_FIRMWARE },
             preventDefault: false,
-            isActive: true,
+            isActive: false,
             category: TOOLBAR_CATEGORY,
             callback: this.shuttleControlFunctions.OPEN_TOOLBAR
         },
@@ -245,7 +245,7 @@ class NavSidebar extends PureComponent {
                     onClick={() => actions.openModal(MODAL_FIRMWARE)}
                     icon="fa fa-microchip"
                     label="Firmware"
-                    disabled={isDisabled}
+                    disabled={isDisabled || true}
                 />
                 <NavSidebarLink
                     url=""
