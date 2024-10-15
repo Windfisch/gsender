@@ -227,7 +227,7 @@ class SecondaryFunctionality extends PureComponent {
         const activeTab = filteredTabs[selectedTab] !== undefined ? selectedTab : 0;
 
         return (
-            <TabbedWidget fullscreen={isFullscreen}>
+            <TabbedWidget fullscreen={isFullscreen} style={{ flexGrow: 1 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                     <TabbedWidget.Tabs
                         tabs={filteredTabs}

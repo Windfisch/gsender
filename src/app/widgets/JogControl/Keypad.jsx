@@ -45,8 +45,6 @@ import {
 import styles from './index.styl';
 import JogControl from './components/JogControl';
 import JogCancel from './components/JogCancel';
-import FunctionButton from '../../components/FunctionButton/FunctionButton';
-import { SPEED_NORMAL, SPEED_PRECISE, SPEED_RAPID } from './constants';
 
 const KeypadText = styled.span`
     position: relative;
@@ -125,7 +123,7 @@ class Keypad extends PureComponent {
     }
 
     render() {
-        const { canClick, canClickCancel, actions, axes, activeState, selectedSpeed } = this.props;
+        const { canClick, canClickCancel, actions, axes, activeState } = this.props;
         const canClickX = canClick && _includes(axes, 'x');
         const canClickY = canClick && _includes(axes, 'y');
         const canClickXY = canClickX && canClickY;
@@ -140,12 +138,11 @@ class Keypad extends PureComponent {
         // Feedrates and distances
         const xyDistance = actions.getXYJogDistance();
         const zDistance = actions.getZJogDistance();
-        const feedrate = actions.getFeedrate();
+        //const feedrate = actions.getFeedrate();
 
-        // Which button is active
-        const rapidActive = canClick && (selectedSpeed === SPEED_RAPID);
-        const normalActive = canClick && (selectedSpeed === SPEED_NORMAL);
-        const preciseActive = canClick && (selectedSpeed === SPEED_PRECISE);
+        const rapidFeedrate = this.props.jog.rapid.feedrate;
+        const normalFeedrate = this.props.jog.normal.feedrate;
+        const preciseFeedrate = this.props.jog.precise.feedrate;
 
         return (
             <div className={styles.keypad}>
@@ -160,15 +157,104 @@ class Keypad extends PureComponent {
                     <div className={styles.xyKeys}>
                         <JogControl
                             className={styles.btnUpLeft}
-                            jog={() => actions.jog({ X: -xyDistance, Y: xyDistance, F: feedrate })}
-                            continuousJog={() => actions.startContinuousJog({ X: -1, Y: 1 }, feedrate)}
+                            style={{ scale: '130%', transform: 'translate(90%, 90%)' }}
+                            jog={() => actions.jog({ X: -xyDistance, Y: xyDistance, F: rapidFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: -1, Y: 1 }, rapidFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled || rotary}
+                        />
+                        <div/>
+                        <div/>
+                        <JogControl
+                            className={styles.btnUp}
+                            style={{ scale: '130%' }}
+                            jog={() => actions.jog({ Y: xyDistance, F: rapidFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ Y: 1 }, rapidFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled || rotary}
+                        >
+                            <KeypadText>Y</KeypadText>
+                            <KeypadDirectionText>+</KeypadDirectionText>
+                        </JogControl>
+                        <div/>
+                        <div/>
+                        <JogControl
+                            className={styles.btnUpRight}
+                            style={{ scale: '130%', transform: 'translate(-90%, 90%)' }}
+                            jog={() => actions.jog({ X: xyDistance, Y: xyDistance, F: rapidFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: 1, Y: 1 }, rapidFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled || rotary}
+                        />
+                        <JogControl
+                            className={cx(styles.btnUp, styles.zTopTransform)}
+                            jog={() => actions.jog({ Z: zDistance, F: rapidFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ Z: 1 }, rapidFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={zControlsDisabled}
+                        >
+                            <KeypadText>Z</KeypadText>
+                            <KeypadDirectionText>+</KeypadDirectionText>
+                        </JogControl>
+
+
+                        <div/>
+                        <JogControl
+                            className={styles.btnUpLeft}
+                            style={{ scale: '100%', transform: 'translate(60%, 60%)' }}
+                            jog={() => actions.jog({ X: -xyDistance, Y: xyDistance, F: normalFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: -1, Y: 1 }, normalFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled || rotary}
+                        />
+                        <div/>
+                        <JogControl
+                            className={styles.btnUp}
+                            jog={() => actions.jog({ Y: xyDistance, F: normalFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ Y: 1 }, normalFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled || rotary}
+                        >
+                            <KeypadText>Y</KeypadText>
+                            <KeypadDirectionText>+</KeypadDirectionText>
+                        </JogControl>
+                        <div/>
+                        <JogControl
+                            className={styles.btnUpRight}
+                            style={{ scale: '100%', transform: 'translate(-60%, 60%)' }}
+                            jog={() => actions.jog({ X: xyDistance, Y: xyDistance, F: normalFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: 1, Y: 1 }, normalFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled || rotary}
+                        />
+                        <div/>
+                        <JogControl
+                            className={cx(styles.btnUp, styles.zTopTransform)}
+                            jog={() => actions.jog({ Z: zDistance, F: normalFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ Z: 1 }, normalFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={zControlsDisabled}
+                        >
+                            <KeypadText>Z</KeypadText>
+                            <KeypadDirectionText>+</KeypadDirectionText>
+                        </JogControl>
+
+
+                        <div/>
+                        <div/>
+                        <JogControl
+                            className={styles.btnUpLeft}
+                            style={{ scale: '80%' }}
+                            jog={() => actions.jog({ X: -xyDistance, Y: xyDistance, F: preciseFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: -1, Y: 1 }, preciseFeedrate)}
                             stopContinuousJog={() => actions.stopContinuousJog()}
                             disabled={xyControlsDisabled || rotary}
                         />
                         <JogControl
                             className={styles.btnUp}
-                            jog={() => actions.jog({ Y: xyDistance, F: feedrate })}
-                            continuousJog={() => actions.startContinuousJog({ Y: 1 }, feedrate)}
+                            style={{ scale: '80%' }}
+                            jog={() => actions.jog({ Y: xyDistance, F: preciseFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ Y: 1 }, preciseFeedrate)}
                             stopContinuousJog={() => actions.stopContinuousJog()}
                             disabled={xyControlsDisabled || rotary}
                         >
@@ -177,26 +263,53 @@ class Keypad extends PureComponent {
                         </JogControl>
                         <JogControl
                             className={styles.btnUpRight}
-                            jog={() => actions.jog({ X: xyDistance, Y: xyDistance, F: feedrate })}
-                            continuousJog={() => actions.startContinuousJog({ X: 1, Y: 1 }, feedrate)}
+                            style={{ scale: '80%' }}
+                            jog={() => actions.jog({ X: xyDistance, Y: xyDistance, F: preciseFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: 1, Y: 1 }, preciseFeedrate)}
                             stopContinuousJog={() => actions.stopContinuousJog()}
                             disabled={xyControlsDisabled || rotary}
                         />
+                        <div/>
+                        <div/>
 
                         <JogControl
                             className={cx(styles.btnUp, styles.zTopTransform)}
-                            jog={() => actions.jog({ Z: zDistance, F: feedrate })}
-                            continuousJog={() => actions.startContinuousJog({ Z: 1 }, feedrate)}
+                            jog={() => actions.jog({ Z: zDistance, F: preciseFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ Z: 1 }, preciseFeedrate)}
                             stopContinuousJog={() => actions.stopContinuousJog()}
                             disabled={zControlsDisabled}
                         >
                             <KeypadText>Z</KeypadText>
                             <KeypadDirectionText>+</KeypadDirectionText>
                         </JogControl>
+
+
                         <JogControl
                             className={styles.btnLeft}
-                            jog={() => actions.jog({ X: -xyDistance, F: feedrate })}
-                            continuousJog={() => actions.startContinuousJog({ X: -1 }, feedrate)}
+                            style={{ scale: '130%' }}
+                            jog={() => actions.jog({ X: -xyDistance, F: rapidFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: -1 }, rapidFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled}
+                        >
+                            <KeypadText>X</KeypadText>
+                            <KeypadDirectionText>-</KeypadDirectionText>
+                        </JogControl>
+                        <JogControl
+                            className={styles.btnLeft}
+                            jog={() => actions.jog({ X: -xyDistance, F: normalFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: -1 }, normalFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled}
+                        >
+                            <KeypadText>X</KeypadText>
+                            <KeypadDirectionText>-</KeypadDirectionText>
+                        </JogControl>
+                        <JogControl
+                            className={styles.btnLeft}
+                            style={{ scale: '80%' }}
+                            jog={() => actions.jog({ X: -xyDistance, F: preciseFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: -1 }, preciseFeedrate)}
                             stopContinuousJog={() => actions.stopContinuousJog()}
                             disabled={xyControlsDisabled}
                         >
@@ -206,8 +319,30 @@ class Keypad extends PureComponent {
                         <JogCancel disabled={!canClickCancel} activeState={activeState} onClick={() => actions.cancelJog()} />
                         <JogControl
                             className={styles.btnRight}
-                            jog={() => actions.jog({ X: xyDistance, F: feedrate })}
-                            continuousJog={() => actions.startContinuousJog({ X: 1 }, feedrate)}
+                            style={{ scale: '80%' }}
+                            jog={() => actions.jog({ X: xyDistance, F: preciseFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: 1 }, preciseFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled}
+                        >
+                            <KeypadText>X</KeypadText>
+                            <KeypadDirectionText>+</KeypadDirectionText>
+                        </JogControl>
+                        <JogControl
+                            className={styles.btnRight}
+                            jog={() => actions.jog({ X: xyDistance, F: normalFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: 1 }, normalFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled}
+                        >
+                            <KeypadText>X</KeypadText>
+                            <KeypadDirectionText>+</KeypadDirectionText>
+                        </JogControl>
+                        <JogControl
+                            className={styles.btnRight}
+                            style={{ scale: '130%' }}
+                            jog={() => actions.jog({ X: xyDistance, F: rapidFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: 1 }, rapidFeedrate)}
                             stopContinuousJog={() => actions.stopContinuousJog()}
                             disabled={xyControlsDisabled}
                         >
@@ -215,17 +350,23 @@ class Keypad extends PureComponent {
                             <KeypadDirectionText>+</KeypadDirectionText>
                         </JogControl>
                         <div />
+
+
+                        <div />
+                        <div />
                         <JogControl
                             className={styles.btnDownLeft}
-                            jog={() => actions.jog({ X: -xyDistance, Y: -xyDistance, F: feedrate })}
-                            continuousJog={() => actions.startContinuousJog({ X: -1, Y: -1 }, feedrate)}
+                            style={{ scale: '80%' }}
+                            jog={() => actions.jog({ X: -xyDistance, Y: -xyDistance, F: preciseFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: -1, Y: -1 }, preciseFeedrate)}
                             stopContinuousJog={() => actions.stopContinuousJog()}
                             disabled={xyControlsDisabled || rotary}
                         />
                         <JogControl
                             className={styles.btnDown}
-                            jog={() => actions.jog({ Y: -xyDistance, F: feedrate })}
-                            continuousJog={() => actions.startContinuousJog({ Y: -1 }, feedrate)}
+                            style={{ scale: '80%' }}
+                            jog={() => actions.jog({ Y: -xyDistance, F: preciseFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ Y: -1 }, preciseFeedrate)}
                             stopContinuousJog={() => actions.stopContinuousJog()}
                             disabled={xyControlsDisabled || rotary}
                         >
@@ -234,57 +375,109 @@ class Keypad extends PureComponent {
                         </JogControl>
                         <JogControl
                             className={styles.btnDownRight}
-                            jog={() => actions.jog({ X: xyDistance, Y: -xyDistance, F: feedrate })}
-                            continuousJog={() => actions.startContinuousJog({ X: 1, Y: -1 }, feedrate)}
+                            style={{ scale: '80%' }}
+                            jog={() => actions.jog({ X: xyDistance, Y: -xyDistance, F: preciseFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: 1, Y: -1 }, preciseFeedrate)}
                             stopContinuousJog={() => actions.stopContinuousJog()}
                             disabled={xyControlsDisabled || rotary}
                         />
+                        <div />
+                        <div />
                         <JogControl
                             className={cx(styles.btnDown, styles.zBottomTransform)}
-                            jog={() => actions.jog({ Z: -zDistance, F: feedrate })}
-                            continuousJog={() => actions.startContinuousJog({ Z: -1 }, feedrate)}
+                            jog={() => actions.jog({ Z: -zDistance, F: preciseFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ Z: -1 }, preciseFeedrate)}
                             stopContinuousJog={() => actions.stopContinuousJog()}
                             disabled={zControlsDisabled}
                         >
                             <KeypadText>Z</KeypadText>
                             <KeypadDirectionText>-</KeypadDirectionText>
                         </JogControl>
-                    </div>
-                    <div className={styles.presetControls}>
-                        <FunctionButton
-                            className={cx({ [styles.activeButton]: rapidActive })}
-                            disabled={!canClick} type="button"
-                            onClick={() => {
-                                actions.setSelectedSpeed(SPEED_RAPID);
-                                actions.setJogFromPreset('rapid');
-                            }}
-                            style={{ marginTop: 0 }}
+
+
+                        <div />
+                        <JogControl
+                            className={styles.btnDownLeft}
+                            style={{ scale: '100%', transform: 'translate(60%, -60%)' }}
+                            jog={() => actions.jog({ X: -xyDistance, Y: -xyDistance, F: normalFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: -1, Y: -1 }, normalFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled || rotary}
+                        />
+                        <div />
+                        <JogControl
+                            className={styles.btnDown}
+                            jog={() => actions.jog({ Y: -xyDistance, F: normalFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ Y: -1 }, normalFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled || rotary}
                         >
-                            { rapidActive && <div className={styles.activeIndicator} /> }
-                            Rapid
-                        </FunctionButton>
-                        <FunctionButton
-                            className={cx({ [styles.activeButton]: normalActive })}
-                            disabled={!canClick}
-                            onClick={() => {
-                                actions.setSelectedSpeed(SPEED_NORMAL);
-                                actions.setJogFromPreset('normal');
-                            }}
+                            <KeypadText>Y</KeypadText>
+                            <KeypadDirectionText>-</KeypadDirectionText>
+                        </JogControl>
+                        <div />
+                        <JogControl
+                            className={styles.btnDownRight}
+                            style={{ scale: '100%', transform: 'translate(-60%, -60%)' }}
+                            jog={() => actions.jog({ X: xyDistance, Y: -xyDistance, F: normalFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: 1, Y: -1 }, normalFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled || rotary}
+                        />
+                        <div />
+                        <JogControl
+                            className={cx(styles.btnDown, styles.zBottomTransform)}
+                            jog={() => actions.jog({ Z: -zDistance, F: normalFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ Z: -1 }, normalFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={zControlsDisabled}
                         >
-                            { normalActive && <div className={styles.activeIndicator} /> }
-                            Normal
-                        </FunctionButton>
-                        <FunctionButton
-                            className={cx({ [styles.activeButton]: preciseActive })}
-                            disabled={!canClick}
-                            onClick={() => {
-                                actions.setSelectedSpeed(SPEED_PRECISE);
-                                actions.setJogFromPreset('precise');
-                            }}
+                            <KeypadText>Z</KeypadText>
+                            <KeypadDirectionText>-</KeypadDirectionText>
+                        </JogControl>
+
+
+                        <JogControl
+                            className={styles.btnDownLeft}
+                            style={{ scale: '130%', transform: 'translate(90%, -90%)' }}
+                            jog={() => actions.jog({ X: -xyDistance, Y: -xyDistance, F: rapidFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: -1, Y: -1 }, rapidFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled || rotary}
+                        />
+                        <div />
+                        <div />
+                        <JogControl
+                            className={styles.btnDown}
+                            style={{ scale: '130%' }}
+                            jog={() => actions.jog({ Y: -xyDistance, F: rapidFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ Y: -1 }, rapidFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled || rotary}
                         >
-                            { preciseActive && <div className={styles.activeIndicator} /> }
-                            Precise
-                        </FunctionButton>
+                            <KeypadText>Y</KeypadText>
+                            <KeypadDirectionText>-</KeypadDirectionText>
+                        </JogControl>
+                        <div />
+                        <div />
+                        <JogControl
+                            className={styles.btnDownRight}
+                            style={{ scale: '130%', transform: 'translate(-90%, -90%)' }}
+                            jog={() => actions.jog({ X: xyDistance, Y: -xyDistance, F: rapidFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ X: 1, Y: -1 }, rapidFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={xyControlsDisabled || rotary}
+                        />
+                        <JogControl
+                            className={cx(styles.btnDown, styles.zBottomTransform)}
+                            jog={() => actions.jog({ Z: -zDistance, F: rapidFeedrate })}
+                            continuousJog={() => actions.startContinuousJog({ Z: -1 }, rapidFeedrate)}
+                            stopContinuousJog={() => actions.stopContinuousJog()}
+                            disabled={zControlsDisabled}
+                        >
+                            <KeypadText>Z</KeypadText>
+                            <KeypadDirectionText>-</KeypadDirectionText>
+                        </JogControl>
                     </div>
                 </div>
             </div>

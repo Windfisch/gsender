@@ -218,15 +218,21 @@ class PrimaryWidgets extends Component {
                 }
                 return true;
             })
-            .map(widgetId => (
-                <div data-widget-id={widgetId} key={widgetId}>
-                    <Widget
-                        widgetId={widgetId}
-                        onFork={this.forkWidget(widgetId)}
-                        onRemove={this.removeWidget(widgetId)}
-                    />
-                </div>
-            ));
+            .map(widgetId => {
+                var style = null;
+                if (widgetId === 'secondary') {
+                    style = { flexGrow: 1 };
+                }
+                return (
+                    <div data-widget-id={widgetId} key={widgetId} style={style}>
+                        <Widget
+                            widgetId={widgetId}
+                            onFork={this.forkWidget(widgetId)}
+                            onRemove={this.removeWidget(widgetId)}
+                        />
+                    </div>
+                );
+            });
 
         return (
             <Sortable

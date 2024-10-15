@@ -24,7 +24,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Keypad from './Keypad';
-import SpeedControls from './SpeedControls';
 import styles from './index.styl';
 
 const Axes = (props) => {
@@ -62,7 +61,6 @@ const Axes = (props) => {
                 selectedSpeed={state.selectedSpeed}
                 canJog={state.canJog}
             />
-            <SpeedControls state={state} actions={actions} />
         </div>
     );
 };
