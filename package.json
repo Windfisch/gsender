@@ -24,9 +24,7 @@
   "engines": {
     "node": ">=14"
   },
-  "preferGlobal": true,
   "scripts": {
-    "prepare": "npm run clean",
     "prebuild-latest": "npm run package-sync && bash -c \"cd src; npm version ${npm_package_version}-${COMMIT_COUNT}\" && bash scripts/prebuild-prod.sh",
     "prebuild-dev": "npm run package-sync && bash scripts/prebuild-dev.sh",
     "prebuild-prod": "npm run package-sync && bash scripts/prebuild-prod.sh",
@@ -425,10 +423,7 @@
     "@react-pdf/stylesheet": "4.1.8",
     "@react-pdf/textkit": "4.2.0",
     "@react-pdf/types": "2.3.4",
-    "@react-pdf/yoga": "4.1.2",
-    "webpack@4.47.0": {
-      "terser-webpack-plugin": "^4.2.3"
-    }
+    "@react-pdf/yoga": "4.1.2"
   },
   "resolutions": {
     "@react-pdf/fns": "2.0.1",
@@ -443,7 +438,6 @@
     "@react-pdf/stylesheet": "4.1.8",
     "@react-pdf/textkit": "4.2.0",
     "@react-pdf/types": "2.3.4",
-    "@react-pdf/yoga": "4.1.2",
-    "webpack@npm:4.47.0/terser-webpack-plugin": "^4.2.3"
+    "@react-pdf/yoga": "4.1.2"
   }
 }

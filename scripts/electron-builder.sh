@@ -1,4 +1,7 @@
 #!/bin/bash
+set -eo pipefail
+set -x
+
 
 __dirname="$(CDPATH= cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 electron_version=$(electron --version)

@@ -750,11 +750,11 @@ export const shortcuts = [
     { // Firmware
         id: 68,
         title: 'Firmware',
-        keys: 'f5',
+        keys: null,
         cmd: 'OPEN_TOOLBAR',
         payload: { toolbar: MODAL_FIRMWARE },
         preventDefault: false,
-        isActive: true,
+        isActive: false,
         category: TOOLBAR_CATEGORY,
     },
     { // Help

@@ -26,7 +26,7 @@ import { useLongPress } from 'use-long-press';
 import cx from 'classnames';
 import styles from '../index.styl';
 
-const JogControl = ({ timeout = 600, disabled = false, jog, continuousJog, stopContinuousJog, className, children }) => {
+const JogControl = ({ timeout = 0, disabled = false, style = null, jog, continuousJog, stopContinuousJog, className, children }) => {
     const bind = useLongPress(() => {
         continuousJog();
     }, {
@@ -40,6 +40,7 @@ const JogControl = ({ timeout = 600, disabled = false, jog, continuousJog, stopC
             type="button"
             className={cx(styles.btnKeypad, className)}
             disabled={disabled}
+            style={style}
             {...bind}
         >
             {children}
