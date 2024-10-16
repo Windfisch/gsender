@@ -1,5 +1,7 @@
 # ![gSender logo](https://github.com/Sienci-Labs/sender/blob/master/src/app/images/icon-git.png?raw=true)gSender: connect to and control [grbl](https://github.com/grbl/grbl)-based CNCs
 
+**This is a gSender fork in use by [Zentrum für Austausch und Machen (ZAM)](https://zam.haus) in Erlangen. See "Changes" below.**
+
 gSender is a feature-packed CNC interface software designed to be clean and easy to learn while retaining a depth of capabilities for advanced users. Its development was begun out of a passion for hobby CNC machines: an interface rebuilt to suit the needs of the at-home CNC user.
 * Accepts standard, grbl-compliant g-code and has been verified to work with many of the common CAM programs
 * Began development to bring new concepts to the existing landscape of grbl senders in an effort to advance functionality and ease-of-use
@@ -17,7 +19,19 @@ Some things that we’re looking to accomplish with this sender:
 
 ![gSender](https://resources.sienci.com/wp-content/uploads/2021/04/gSender-main-page-machine-interface-850x479.png)
 
+## Changes
+
+This is a fork with the following changes:
+
+- Add `dockerbuild/build.sh` script which "just builds" the project with `podman`. Usage: `./dockerbuild/build.sh .`
+- Remove "stepwise jogging", reduce continuous jogging delay to 0ms.
+- Replace jogging speed box by separate jogging buttons (one for each of the three fixed speeds).
+- Disable the "firmware settings" UI to prevent makerspace users from accidentially modifying the CNC controller's settings.
+  (Use inspector to temporarily re-enable them when needed. This is security through obscurity.)
+
 ## 💻 Download [![Github All Releases](https://img.shields.io/github/downloads/Sienci-Labs/gsender/total.svg)]()
+
+**Note: You cannot download the binaries for this fork; this section only lists "vanilla" downloads.**
 
 gSender is available for the following systems and does not yet support headless Pi operation
 
